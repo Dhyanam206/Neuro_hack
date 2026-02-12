@@ -1,0 +1,337 @@
+======================================================================
+  NEUROHACK — 1000-TURN LONG-FORM MEMORY DEMO
+  Proving: Turn 1 information recalled at Turn 1000
+======================================================================
+
+[WARN] No valid API key found. Using MockLLM (demo mode).
+
+  [SETUP]
+  Turn    1 | "My preferred language is Kannada"
+           | WRITE: Gate [PREF_001] -> NO_CONFLICT (preferred_language=Kannada)
+           | READ:  1 memories, 14 tokens, 0.98ms
+
+  [SETUP]
+  Turn    2 | "My name is Arjun"
+           | WRITE: Gate [ENT_001, FACT_002] -> NO_CONFLICT (user_name=Arjun)
+           | READ:  2 memories, 24 tokens, 2.09ms
+
+  [SETUP]
+  Turn    3 | "I work at Infosys in Bangalore"
+           | WRITE: Gate [ENT_002] -> NO_CONFLICT (employer=Infosys)
+           | READ:  3 memories, 46 tokens, 1.17ms
+
+  [SETUP]
+  Turn    4 | "I live in Bangalore"
+           | WRITE: Gate [ENT_003] -> NO_CONFLICT (user_location=Bangalore)
+           | READ:  4 memories, 44 tokens, 1.4ms
+
+  [SETUP]
+  Turn    5 | "Always use formal tone with me"
+           | WRITE: Gate [PREF_003] -> NO_CONFLICT (response_tone=formal)
+           | READ:  5 memories, 55 tokens, 1.47ms
+
+  [SETUP]
+  Turn    6 | "My doctor is Dr. Patel"
+           | WRITE: Gate [ENT_001] -> NO_CONFLICT (doctor_name=Dr. Patel)
+           | READ:  6 memories, 82 tokens, 1.49ms
+
+  [SETUP]
+  Turn    7 | "I'm a vegetarian"
+           | WRITE: Gate [FACT_001] -> NO_CONFLICT (dietary_preference=vegetarian)
+           | READ:  7 memories, 105 tokens, 1.32ms
+
+  [SETUP]
+  Turn    8 | "My email is arjun@infosys.com"
+           | WRITE: Gate [ENT_001] -> NO_CONFLICT (user_email=arjun@infosys.com)
+           | READ:  8 memories, 115 tokens, 1.48ms
+
+  [SETUP]
+  Turn    9 | "I'm diabetic"
+           | WRITE: Gate [FACT_001] -> NO_CONFLICT (medical_condition=diabetic)
+           | READ:  9 memories, 142 tokens, 1.47ms
+
+  [SETUP]
+  Turn   10 | "Never call me before 9 AM"
+           | WRITE: Gate [PREF_002] -> NO_CONFLICT (constraint=Never call me before 9 AM)
+           | READ:  10 memories, 114 tokens, 2.48ms
+
+  [SETUP]
+  Turn   25 | "My manager's name is Priya"
+           | WRITE: Gate [ENT_001] -> NO_CONFLICT (manager_name=Priya)
+           | READ:  10 memories, 139 tokens, 2.0ms
+
+  [SETUP]
+  Turn   42 | "I have a meeting every Monday at 10 AM"
+           | WRITE: Gate [TEMP_002, TEMP_003] -> NO_CONFLICT (scheduled_action=I have a meeting every Monday at 10 AM)
+           | READ:  10 memories, 158 tokens, 2.75ms
+
+  [SETUP]
+  Turn   67 | "I prefer dark mode in all applications"
+           | WRITE: Gate [PREF_001] -> NO_CONFLICT (preference=dark mode in all applications)
+           | READ:  10 memories, 130 tokens, 2.72ms
+
+  [SETUP]
+  Turn   88 | "My phone number is 9876543210"
+           | WRITE: Gate [FACT_002] -> NO_CONFLICT (phone_number=9876543210)
+           | READ:  10 memories, 115 tokens, 2.66ms
+
+  ... Turn  100/1000 | 2 memories | max 175 tok | 0.4s
+
+  [RECALL TEST]
+  Turn  120 | "What language do you speak to me in?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 169 tokens, 2.33ms
+           | RECALL: ✅ PASS — expected preferred_language=Kannada, got Kannada
+
+  [SUPERSESSION]
+  Turn  150 | "Actually, my preferred language is Hindi, not Kannada"
+           | WRITE: Gate [PREF_001, CORR_001] -> SUPERSEDED (preferred_language=Hindi)
+           | READ:  10 memories, 138 tokens, 2.74ms
+
+  [SUPERSESSION]
+  Turn  175 | "Change my tone preference to informal"
+           | WRITE: Gate [PREF_003, CORR_001] -> SUPERSEDED (response_tone=informal)
+           | READ:  10 memories, 159 tokens, 2.45ms
+
+  [RECALL TEST]
+  Turn  180 | "What is my preferred language now?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 131 tokens, 1.57ms
+           | RECALL: ✅ PASS — expected preferred_language=Hindi, got Hindi
+
+  [RECALL TEST]
+  Turn  195 | "What tone do you use with me?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 128 tokens, 1.51ms
+           | RECALL: ✅ PASS — expected response_tone=informal, got informal
+
+  ... Turn  200/1000 | 4 memories | max 175 tok | 0.8s
+
+  [TEMPORAL]
+  Turn  210 | "Remind me to call the dentist tomorrow after 11 AM"
+           | WRITE: Gate [TEMP_001, TEMP_003] -> NO_CONFLICT (scheduled_action=Remind me to call the dentist tomorrow after 11 AM)
+           | READ:  10 memories, 133 tokens, 1.38ms
+
+  [TEMPORAL]
+  Turn  250 | "Remind me about the report by Friday"
+           | WRITE: Gate [TEMP_002, TEMP_003] -> NO_CONFLICT (scheduled_action=Remind me about the report by Friday)
+           | READ:  10 memories, 158 tokens, 2.24ms
+
+  [RECALL TEST]
+  Turn  260 | "Do I have any upcoming reminders or commitments?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 135 tokens, 2.6ms
+           | RECALL: ✅ PASS — expected scheduled_action=has_commitments, got I have a meeting every Monday at 10 AM
+
+  [TEMPORAL]
+  Turn  300 | "Schedule a follow-up in 2 hours"
+           | WRITE: Gate [TEMP_003] -> NO_CONFLICT (scheduled_action=Schedule a follow-up in 2 hours)
+           | READ:  10 memories, 128 tokens, 1.78ms
+
+  [TEMPORAL]
+  Turn  350 | "I have a dentist appointment next Tuesday"
+           | WRITE: Gate [TEMP_001, TEMP_003] -> NO_CONFLICT (scheduled_action=I have a dentist appointment next Tuesday)
+           | READ:  10 memories, 145 tokens, 2.97ms
+
+  [RECALL TEST]
+  Turn  400 | "Do I have any upcoming appointments?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 123 tokens, 1.43ms
+           | RECALL: ✅ PASS — expected scheduled_action=dentist_or_commitments, got I have a dentist appointment next Tuesday
+
+  [RECALL TEST]
+  Turn  450 | "What is my name and where do I work?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 175 tokens, 1.85ms
+           | RECALL: ✅ PASS — expected user_name=Arjun, got Arjun
+
+  ... Turn  500/1000 | 11 memories | max 175 tok | 2.0s
+
+  [CORRECTION]
+  Turn  520 | "Actually, my email has changed to arjun.new@infosys.com"
+           | WRITE: Gate [CORR_001] -> SUPERSEDED (user_email=arjun.new@infosys.com)
+           | READ:  10 memories, 133 tokens, 2.32ms
+
+  [CORRECTION]
+  Turn  600 | "I moved to Hyderabad recently"
+           | WRITE: Gate [ENT_003, CORR_001] -> SUPERSEDED (user_location=Hyderabad)
+           | READ:  10 memories, 129 tokens, 1.29ms
+
+  [RECALL TEST]
+  Turn  625 | "What city do I live in currently?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 174 tokens, 1.47ms
+           | RECALL: ✅ PASS — expected user_location=Hyderabad, got Hyderabad
+
+  [CORRECTION]
+  Turn  650 | "Update my doctor to Dr. Sharma"
+           | WRITE: Gate [ENT_001, CORR_001] -> SUPERSEDED (doctor_name=Dr. Sharma)
+           | READ:  10 memories, 111 tokens, 1.7ms
+
+  [RECALL TEST]
+  Turn  670 | "Who is my doctor?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 148 tokens, 2.24ms
+           | RECALL: ✅ PASS — expected doctor_name=Dr. Sharma, got Dr. Sharma
+
+  ... Turn  700/1000 | 23 memories | max 175 tok | 2.8s
+
+  [RECALL TEST]
+  Turn  750 | "What is my dietary preference?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 152 tokens, 1.62ms
+           | RECALL: ✅ PASS — expected dietary_preference=vegetarian, got vegetarian
+
+  [RECALL TEST]
+  Turn  800 | "What dietary restrictions do I have?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 140 tokens, 2.41ms
+           | RECALL: ✅ PASS — expected dietary_preference=vegetarian, got vegetarian
+
+  [RECALL TEST]
+  Turn  850 | "What medical conditions do I have?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 127 tokens, 2.41ms
+           | RECALL: ✅ PASS — expected medical_condition=diabetic, got diabetic
+
+  ... Turn  900/1000 | 23 memories | max 175 tok | 3.6s
+
+  [FINAL RECALL]
+  Turn  910 | "What is my name?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 168 tokens, 1.42ms
+           | RECALL: ✅ PASS — expected user_name=Arjun, got Arjun
+
+  [FINAL RECALL]
+  Turn  920 | "What is my preferred language?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 166 tokens, 1.72ms
+           | RECALL: ✅ PASS — expected preferred_language=Hindi, got Hindi
+
+  [FINAL RECALL]
+  Turn  930 | "What company do I work at?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 134 tokens, 2.34ms
+           | RECALL: ✅ PASS — expected employer=Infosys, got Infosys
+
+  [FINAL RECALL]
+  Turn  940 | "What city do I live in?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 125 tokens, 2.28ms
+           | RECALL: ✅ PASS — expected user_location=Hyderabad, got Hyderabad
+
+  [FINAL RECALL]
+  Turn  950 | "What tone do you use with me?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 164 tokens, 1.62ms
+           | RECALL: ✅ PASS — expected response_tone=informal, got informal
+
+  [FINAL RECALL]
+  Turn  960 | "What is my email?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 160 tokens, 2.21ms
+           | RECALL: ✅ PASS — expected user_email=arjun.new@infosys.com, got arjun.new@infosys.com
+
+  [FINAL RECALL]
+  Turn  970 | "Who is my doctor?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 154 tokens, 2.25ms
+           | RECALL: ✅ PASS — expected doctor_name=Dr. Sharma, got Dr. Sharma
+
+  [FINAL RECALL]
+  Turn  980 | "What is my dietary preference?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 139 tokens, 2.35ms
+           | RECALL: ✅ PASS — expected dietary_preference=vegetarian, got vegetarian
+
+  [FINAL RECALL]
+  Turn  990 | "What medical conditions do I have?"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 159 tokens, 2.46ms
+           | RECALL: ✅ PASS — expected medical_condition=diabetic, got diabetic
+
+  [FINAL RECALL]
+  Turn 1000 | "Tell me everything you remember about me"
+           | WRITE: Gate did not fire
+           | READ:  11 memories, 164 tokens, 3.03ms
+           | RECALL: ✅ PASS — expected all=full_recall, got Hindi
+
+======================================================================
+  1000-TURN DEMO RESULTS
+======================================================================
+  Total time:            3.3s
+  Memories stored:       23
+  Supersessions:         5
+  Max tokens injected:   175 / 800
+  Avg retrieval latency: 2.14ms
+  Token budget held:     YES ✅
+
+  RECALL: 21/21 (100%)
+  ────────────────────────────────────────────────────────────
+    Turn  120: ✅ preferred_language        expected=Kannada                   got=Kannada
+    Turn  180: ✅ preferred_language        expected=Hindi                     got=Hindi
+    Turn  195: ✅ response_tone             expected=informal                  got=informal
+    Turn  260: ✅ scheduled_action          expected=has_commitments           got=I have a meeting every Monday at 10 AM
+    Turn  400: ✅ scheduled_action          expected=dentist_or_commitments    got=I have a dentist appointment next Tuesday
+    Turn  450: ✅ user_name                 expected=Arjun                     got=Arjun
+    Turn  625: ✅ user_location             expected=Hyderabad                 got=Hyderabad
+    Turn  670: ✅ doctor_name               expected=Dr. Sharma                got=Dr. Sharma
+    Turn  750: ✅ dietary_preference        expected=vegetarian                got=vegetarian
+    Turn  800: ✅ dietary_preference        expected=vegetarian                got=vegetarian
+    Turn  850: ✅ medical_condition         expected=diabetic                  got=diabetic
+    Turn  910: ✅ user_name                 expected=Arjun                     got=Arjun
+    Turn  920: ✅ preferred_language        expected=Hindi                     got=Hindi
+    Turn  930: ✅ employer                  expected=Infosys                   got=Infosys
+    Turn  940: ✅ user_location             expected=Hyderabad                 got=Hyderabad
+    Turn  950: ✅ response_tone             expected=informal                  got=informal
+    Turn  960: ✅ user_email                expected=arjun.new@infosys.com     got=arjun.new@infosys.com
+    Turn  970: ✅ doctor_name               expected=Dr. Sharma                got=Dr. Sharma
+    Turn  980: ✅ dietary_preference        expected=vegetarian                got=vegetarian
+    Turn  990: ✅ medical_condition         expected=diabetic                  got=diabetic
+    Turn 1000: ✅ all                       expected=full_recall               got=Hindi
+
+======================================================================
+  MEMORY STATE
+======================================================================
+
+  Active (18):
+    [semantic] user_name                 = Arjun (conf=0.95, turn=2)
+    [semantic] employer                  = Infosys (conf=0.95, turn=3)
+    [semantic] dietary_preference        = vegetarian (conf=0.95, turn=7)
+    [semantic] medical_condition         = diabetic (conf=0.95, turn=9)
+    [semantic] constraint                = Never call me before 9 AM (conf=0.95, turn=10)
+    [semantic] manager_name              = Priya (conf=0.95, turn=25)
+    [episodic] scheduled_action          = I have a meeting every Monday at 10 AM (conf=0.95, turn=42)
+    [semantic] preference                = dark mode in all applications (conf=0.95, turn=67)
+    [semantic] phone_number              = 9876543210 (conf=0.95, turn=88)
+    [semantic] preferred_language        = Hindi (conf=0.95, turn=150)
+    [semantic] response_tone             = informal (conf=0.95, turn=175)
+    [episodic] scheduled_action          = Remind me to call the dentist tomorrow after 11 AM (conf=0.95, turn=210)
+    [episodic] scheduled_action          = Remind me about the report by Friday (conf=0.95, turn=250)
+    [episodic] scheduled_action          = Schedule a follow-up in 2 hours (conf=0.95, turn=300)
+    [episodic] scheduled_action          = I have a dentist appointment next Tuesday (conf=0.95, turn=350)
+    [semantic] user_email                = arjun.new@infosys.com (conf=0.95, turn=520)
+    [semantic] user_location             = Hyderabad (conf=0.95, turn=600)
+    [semantic] doctor_name               = Dr. Sharma (conf=0.95, turn=650)
+
+  Superseded (5):
+    [semantic] preferred_language        = Kannada (turn=1, superseded by Hindi@150)
+    [semantic] response_tone             = formal (turn=5, superseded by informal@175)
+    [semantic] user_email                = arjun@infosys.com (turn=8, superseded by arjun.new@520)
+    [semantic] user_location             = Bangalore (turn=4, superseded by Hyderabad@600)
+    [semantic] doctor_name               = Dr. Patel (turn=6, superseded by Dr. Sharma@650)
+
+  Total: 28 (active=18, superseded=5, expired=0, conflicted=0)
+
+======================================================================
+  METRICS: full_1000
+======================================================================
+    scenario                           : full_1000
+    total_turns                        : 1000
+    recall@k                           : 1.0
+    avg_retrieval_latency_ms           : 2.14
+    max_tokens_injected                : 175
+    token_budget_violations            : 0
+
+  Results saved to evaluation/results.json
+  Contains: 1000 turn entries (all 1000 turns)

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+
+# Local DB / outputs
+*.sqlite3
+*.db
+evaluation/results.json
+outputs/
+runs/
+
+# Secrets (if any)
+config/secrets.yaml
+settings.local.yaml

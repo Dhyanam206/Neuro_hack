@@ -1,0 +1,44 @@
+# NEUROHACK Configuration
+# Copy this file to settings.yaml and fill in your API key
+
+llm:
+  provider: "openai"          # openai | anthropic | groq | ollama
+  api_key: "ADD YOUR API KEY"
+  model: "gpt-4o-mini"        # Model for structuring (lightweight is fine)
+  base_url: null               # Custom endpoint for Ollama etc.
+
+database:
+  path: "neurohack_memory.db"  # SQLite file path
+  echo: false                  # SQLAlchemy echo for debugging
+
+confidence_threshold: 0.7      # Below this, memory stored but not retrieved
+
+token_budget:
+  tier_1: 300                  # Always-inject: constraints & hard preferences
+  tier_2: 300                  # Intent-matched contextual memories
+  tier_3: 200                  # Vector fallback results
+  total: 800                   # Hard cap, never exceeded
+
+retrieval:
+  top_k: 5                    # Max results per retrieval level
+
+buffer:
+  max_capacity: 10             # Write-ahead buffer size
+  ttl_turns: 2                 # Evict after N turns
+
+gc:
+  interval_turns: 50           # Temporal GC runs every N turns
+  interval_minutes: 5          # Or every N minutes, whichever first
+
+ranking_weights:
+  recency: 0.3
+  confidence: 0.3
+  specificity: 0.4
+
+user_defaults:
+  timezone: null               # Set to IANA string if known (e.g. "Asia/Kolkata")
+
+vector:
+  enabled: true                # Set false to disable vector fallback entirely
+  dimension: 384               # Embedding dimension
+  index_path: "neurohack_vector.index"

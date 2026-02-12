@@ -1,0 +1,81 @@
+{
+  "scenarios": {
+    "long_range_recall": {
+      "description": "Preference set at turn 1, recalled at turn 50+",
+      "turns": [
+        {"turn": 1, "message": "My preferred language is Kannada"},
+        {"turn": 2, "message": "My name is Arjun"},
+        {"turn": 3, "message": "I work at Infosys in Bangalore"},
+        {"turn": 4, "message": "What's the weather like today?"},
+        {"turn": 5, "message": "Tell me about machine learning"},
+        {"turn": 6, "message": "Can you explain neural networks?"},
+        {"turn": 7, "message": "Thanks, that was helpful"},
+        {"turn": 8, "message": "I'm a vegetarian by the way"},
+        {"turn": 9, "message": "What's the latest news?"},
+        {"turn": 10, "message": "Tell me a joke"},
+        {"turn": 20, "message": "How do I optimize my code?"},
+        {"turn": 30, "message": "Can you summarize what you know about me?"},
+        {"turn": 40, "message": "What projects should I work on?"},
+        {"turn": 50, "message": "Can you greet me in my preferred language?"},
+        {"turn": 60, "message": "Recommend some restaurants near my workplace"}
+      ]
+    },
+
+    "supersession": {
+      "description": "User changes preference mid-conversation, old value never resurfaces",
+      "turns": [
+        {"turn": 1, "message": "My preferred language is Kannada"},
+        {"turn": 2, "message": "Always use formal tone with me"},
+        {"turn": 3, "message": "What's my preferred language?"},
+        {"turn": 10, "message": "Tell me something interesting"},
+        {"turn": 20, "message": "Actually, my preferred language is Hindi, not Kannada"},
+        {"turn": 21, "message": "What language should you speak to me in?"},
+        {"turn": 30, "message": "Greet me in my preferred language"},
+        {"turn": 40, "message": "Change my tone preference to informal"},
+        {"turn": 41, "message": "How should you talk to me?"}
+      ]
+    },
+
+    "temporal_expiration": {
+      "description": "Time-bound commitment correctly expires",
+      "turns": [
+        {"turn": 1, "message": "I'm in the Asia/Kolkata timezone"},
+        {"turn": 2, "message": "Call me tomorrow after 11 AM"},
+        {"turn": 3, "message": "Remind me about the meeting by Friday"},
+        {"turn": 4, "message": "What are my upcoming commitments?"},
+        {"turn": 10, "message": "What commitments do I have?"},
+        {"turn": 50, "message": "Do I have any pending reminders?"}
+      ],
+      "notes": "Run with simulated time advancement to show expiration"
+    },
+
+    "token_budget": {
+      "description": "Token budget stays flat regardless of conversation length",
+      "turns": [
+        {"turn": 1, "message": "My name is Arjun"},
+        {"turn": 2, "message": "My preferred language is Kannada"},
+        {"turn": 3, "message": "I work at Infosys"},
+        {"turn": 4, "message": "I live in Bangalore"},
+        {"turn": 5, "message": "Always use formal tone"},
+        {"turn": 6, "message": "My doctor is Dr. Patel"},
+        {"turn": 7, "message": "I'm a vegetarian"},
+        {"turn": 8, "message": "My email is arjun@example.com"},
+        {"turn": 9, "message": "I'm diabetic"},
+        {"turn": 10, "message": "Never call me before 9 AM"},
+        {"turn": 20, "message": "What do you know about me?"},
+        {"turn": 50, "message": "Tell me about my preferences"},
+        {"turn": 100, "message": "Summarize everything you remember"}
+      ],
+      "notes": "Print injection token count at every turn — must never exceed 800"
+    },
+
+    "conflict_detection": {
+      "description": "Contradictory information triggers clarification",
+      "turns": [
+        {"turn": 1, "message": "My preferred language is Kannada"},
+        {"turn": 2, "message": "I prefer English. Actually, use Hindi."},
+        {"turn": 3, "message": "What's my language preference?"}
+      ]
+    }
+  }
+}
