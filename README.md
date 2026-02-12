@@ -10,7 +10,7 @@ A production-grade memory system for AI agents where information introduced at t
 
 ```bash
 # 1. Clone and enter
-git clone <your-repo-url>
+git clone https://github.com/bhavyaPawar22/Neuro_hack
 cd neurohack
 
 # 2. Install dependencies
@@ -28,7 +28,7 @@ bash run_demo.sh
 
 ## What You'll See
 
-The demo runs a 100-turn conversation showcasing four scenarios:
+The demo runs a 1000-turn conversation showcasing four scenarios:
 
 1. **Long-range recall** — Preference set at turn 1, correctly applied at turn 50+
 2. **Supersession** — User changes preference mid-conversation, old value never resurfaces
@@ -187,11 +187,9 @@ neurohack/
 │   ├── test_conflict.py
 │   └── test_e2e.py
 ├── evaluation/
-│   ├── metrics.py           # Recall, accuracy, latency
-│   ├── report.py            # Generate quantitative results
-│   └── results.json         # Benchmark output (auto-generated)
-└── docs/
-    └── neurohack_framework.docx
+    ├── metrics.py           # Recall, accuracy, latency
+    ├── report.py            # Generate quantitative results
+    └── results.json         # Benchmark output (auto-generated)
 ```
 
 ---
