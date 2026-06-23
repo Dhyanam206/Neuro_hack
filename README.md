@@ -10,7 +10,7 @@ A production-grade memory system for AI agents where information introduced at t
 
 ```bash
 # 1. Clone and enter
-git clone https://github.com/bhavyaPawar22/Neuro_hack
+git clone https://github.com/Dhyanam206/Neuro_hack
 cd neurohack
 
 # 2. Install dependencies
