@@ -63,7 +63,6 @@ KEY_COERCION = {
     "email": "user_email",
     "phone": "phone_number",
     "name is": "user_name",
-    "call me": "user_name",
     "language": "preferred_language",
     "tone": "response_tone",
     "vegetarian": "dietary_preference",

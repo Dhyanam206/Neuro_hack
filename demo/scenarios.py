@@ -146,6 +146,11 @@ def run_1000_turn_demo(verbose: bool = True):
     print(f"  Proving: Turn 1 information recalled at Turn 1000")
     print(f"{'='*70}\n")
 
+    # Always start with a fresh database for the benchmark
+    import os
+    if os.path.exists("neurohack_memory.db"):
+        os.remove("neurohack_memory.db")
+
     db, write_path, response_path, config = init_system(use_memory_db=False)
     # FORCE MockLLM for benchmark (fast execution)
     response_path.llm.provider = "mock"
@@ -226,9 +231,14 @@ def run_1000_turn_demo(verbose: bool = True):
                 for mid in injected_ids:
                     mem = session.query(Memory).get(mid)
                     if mem and (mem.key == expected["key"] or expected["key"] == "all"):
-                        found = True
-                        found_value = mem.value
-                        break
+                        # STRICT CHECK: Also verify the VALUE matches!
+                        # Exception: scheduled_action uses abstract labels in the test
+                        if expected["key"] == "all" or expected["key"] == "scheduled_action" or str(mem.value).strip().lower() == str(expected["expected_value"]).strip().lower():
+                            found = True
+                            found_value = mem.value
+                            break
+                        elif mem.key == expected["key"]:
+                            found_value = mem.value
 
                 recall_results[turn] = {
                     "expected_key": expected["key"],
@@ -269,7 +279,7 @@ def run_1000_turn_demo(verbose: bool = True):
 
                 if turn in recall_results:
                     r = recall_results[turn]
-                    status = "\u2705 PASS" if r["found"] else "\u274c FAIL"
+                    status = "[PASS]" if r["found"] else "[FAIL]"
                     print(f"           | RECALL: {status} \u2014 expected {r['expected_key']}="
                           f"{r['expected_value']}, got {r['actual_value']}")
                     print()
@@ -299,7 +309,7 @@ def run_1000_turn_demo(verbose: bool = True):
         f"  Max tokens injected:   {max_tokens} / {config.token_budget.total}")
     print(f"  Avg retrieval latency: {total_retrieval_ms / 1000:.2f}ms")
     print(
-        f"  Token budget held:     {'YES \u2705' if max_tokens <= config.token_budget.total else 'NO \u274c'}")
+        f"  Token budget held:     {'[YES]' if max_tokens <= config.token_budget.total else '[NO]'}")
     print(f"")
     print(
         f"  RECALL: {passed}/{total_tests} ({100*passed/max(total_tests, 1):.0f}%)")
@@ -307,7 +317,7 @@ def run_1000_turn_demo(verbose: bool = True):
 
     for turn in sorted(recall_results.keys()):
         r = recall_results[turn]
-        status = "\u2705" if r["found"] else "\u274c"
+        status = "[PASS]" if r["found"] else "[FAIL]"
         print(f"    Turn {turn:>4d}: {status} {r['expected_key']:25s} "
               f"expected={r['expected_value']:20s} got={str(r['actual_value'])[:30]}")
 

@@ -199,14 +199,18 @@ EXCLUSION_PATTERNS: List[re.Pattern] = [
 ]
 
 # ─── CRITICAL FIX: Questions with memory triggers ────────────────
-# Old code had a blanket "block all questions" exclusion.
-# This broke "Can you call me tomorrow?" — the PS's example.
-#
-# New approach: questions are excluded ONLY if they don't contain
-# any memory-worthy triggers.
+# Questions starting with What/How/Why/When/Where/Who are information
+# retrieval requests and NEVER contain new memories to write.
+# Questions starting with Can/Could/Would/Will/Do are requests/instructions
+# and MIGHT contain memories (e.g. "Can you call me tomorrow?").
 
-QUESTION_PATTERN = re.compile(
-    r"^(?:what|how|why|when|where|who|can you|could you|would you|will you|do you)\b.*\?$",
+INFO_QUESTION_PATTERN = re.compile(
+    r"^(?:what|how|why|when|where|who)\b.*\?$",
+    re.IGNORECASE,
+)
+
+INSTRUCTION_QUESTION_PATTERN = re.compile(
+    r"^(?:can you|could you|would you|will you|do you|are you)\b.*\?$",
     re.IGNORECASE,
 )
 
@@ -233,8 +237,11 @@ def evaluate_gate(message: str) -> GateResult:
         if pattern.match(message):
             return GateResult(fired=False)
 
-    # Step 2: Check question exclusion — BUT allow questions with triggers
-    if QUESTION_PATTERN.match(message):
+    # Step 2: Check question exclusion
+    if INFO_QUESTION_PATTERN.match(message):
+        return GateResult(fired=False)
+        
+    if INSTRUCTION_QUESTION_PATTERN.match(message):
         if not MEMORY_TRIGGERS_IN_QUESTIONS.search(message):
             return GateResult(fired=False)
 

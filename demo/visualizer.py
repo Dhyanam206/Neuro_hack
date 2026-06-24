@@ -55,6 +55,8 @@ def print_memory_state(session: Session, user_id: str):
     expired = [m for m in all_mem if m.status == MemoryStatus.EXPIRED]
     conflicted = [m for m in all_mem if m.status == MemoryStatus.CONFLICTED]
 
+
+
     print(f"\n  Active ({len(active)}):")
     for m in active:
         val = m.value[:50] if m.value else ""

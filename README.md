@@ -127,7 +127,7 @@ NEUROHACK uses SQLite as the source of truth for all memory storage:
 
 ```
 neurohack/
-└── neurohack.db          # Auto-created on first run
+└── neurohack_memory.db   # Auto-created on first run
 ```
 
 The database file is:
@@ -143,7 +143,7 @@ The database file is:
 |------|---------|
 | Run benchmark (fast, no LLM) | `python -m demo.scenarios --scenario full_1000 --quiet` |
 | Run interactive mode | `python interactive.py` |
-| Check database contents | `sqlite3 neurohack.db "SELECT * FROM memories;"` |
+| Check database contents | `sqlite3 neurohack_memory.db "SELECT * FROM memories;"` |
 | View benchmark results | `cat evaluation/results.json \| jq` |
 
 ---
@@ -157,7 +157,7 @@ neurohack/
 ├── requirements.txt
 ├── run_demo.sh              # Quick 100-turn demo
 ├── interactive.py           # Live chat mode
-├── neurohack.db             # Auto-created SQLite database
+├── neurohack_memory.db      # Auto-created SQLite database
 ├── config/
 │   ├── settings.yaml.example
 │   └── settings.yaml        # Your configuration
@@ -199,7 +199,6 @@ neurohack/
 - **Python 3.11+**
 - **SQLite** — Zero-setup relational store (source of truth)
 - **SQLAlchemy** — ORM for schema + queries
-- **FAISS** — Local vector index (fallback only)
 - **Ollama** — Local LLM for interactive mode
 
 

@@ -91,19 +91,22 @@ class ConflictHandler:
         """Atomic supersession: old → superseded, new → active."""
         now = datetime.now(timezone.utc)
 
-        # Create new memory and flush it FIRST so its PK exists for FK references
+        # 1. Demote the existing memory and flush to free up the UNIQUE constraint
+        old_status = existing.status
+        existing.status = MemoryStatus.SUPERSEDED
+        existing.updated_at = now
+        session.flush()
+
+        # 2. Create the new memory and flush so its PK exists for the AuditLog FK
         new_mem = self._create_memory(user_id, new_memory, source_turn, extraction_rule)
         new_mem.supersedes = existing.memory_id
         session.add(new_mem)
-        session.flush()  # new_mem row now exists in DB
+        session.flush()
 
-        # NOW safe to set FK reference on existing
-        old_status = existing.status
-        existing.status = MemoryStatus.SUPERSEDED
+        # 3. Link the old memory to the new one
         existing.superseded_by = new_mem.memory_id
-        existing.updated_at = now
 
-        # Audit both (both memory_ids now exist)
+        # 4. Insert Audit logs
         session.add(self._audit(existing.memory_id, old_status, MemoryStatus.SUPERSEDED, source_turn))
         session.add(self._audit(new_mem.memory_id, None, MemoryStatus.ACTIVE, source_turn))
         session.commit()
